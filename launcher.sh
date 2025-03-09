@@ -60,7 +60,7 @@ echo " "
 
     read ch
    if [ $ch -eq 1 ];then
-        pkg install openjdk-17
+        pkg install openjdk-21
 
 pkg install wget
 
@@ -76,7 +76,7 @@ mkdir drmatoi_minecrafthost && drmatoi_minecrafthost
 
 cd drmatoi_minecrafthost
 
-wget -O server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
+wget -O server.jar https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
 
 chmod +x server.jar
 
