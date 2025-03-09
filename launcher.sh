@@ -14,18 +14,13 @@ White="\033[1;37m"       # White
 MINECRAFT_DIR="$HOME/drmatoi_minecrafthost"
 
 # Variables
-# MINECRAFT_DOWNLOAD_URL="https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
 MINECRAFT_DOWNLOAD_URL="https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/203/downloads/paper-1.21.4-203.jar"
-PLUGINS_DOWNLOAD_URL=(
-    "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot"
-    "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot"
-    "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.2.1/PAPER/ViaVersion-5.2.1.jar"
-    "https://github.com/playit-cloud/playit-minecraft-plugin/releases/latest/download/playit-minecraft-plugin.jar"
-)
 
-# Update and install necessary packages
-apt-get update -y
-apt-get upgrade -y
+GEYSER_DOWNLOAD_URL="https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot"
+FLOODGATE_DOWNLOAD_URL="https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot"
+VIA_VERSION_DOWNLOAD_URL="https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.2.1/PAPER/ViaVersion-5.2.1.jar"
+PLAYITGG_DOWNLOAD_URL="https://github.com/playit-cloud/playit-minecraft-plugin/releases/latest/download/playit-minecraft-plugin.jar"
+
 
 # Display ASCII art and information
 echo -e "$Red
@@ -74,18 +69,24 @@ read ch
 
 # Handle user input
 if [ $ch -eq 1 ]; then
-    # Install paper server
+    # Update and install necessary packages
+    apt-get update -y
+    apt-get upgrade -y
     pkg install openjdk-21 wget -y
+
+    # Install paper server
+    rm -rf $MINECRAFT_DIR
     mkdir -p $MINECRAFT_DIR && cd $MINECRAFT_DIR
     wget -O server.jar $MINECRAFT_DOWNLOAD_URL
     chmod +x server.jar
-    echo eula=true > eula.txt
+    echo "eula=TRUE" > eula.txt
 
     # Install plugins
     mkdir -p plugins && cd plugins
-    for plugin_url in "${PLUGINS_DOWNLOAD_URL[@]}"; do
-        wget $plugin_url
-    done
+    wget -O "Geyser-Spigot" $GEYSER_DOWNLOAD_URL
+    wget -O "floodgate-spigot" $FLOODGATE_DOWNLOAD_URL
+    wget $VIA_VERSION_DOWNLOAD_URL
+    wget $PLAYITGG_DOWNLOAD_URL
     cd ..
 
     # Start server
