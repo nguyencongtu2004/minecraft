@@ -121,11 +121,10 @@ while true; do
         Now launch the Server with ./alwaysonline.sh This will check the up-time of the server and relaunch it when it's offline."
         cd $HOME
     elif [ $ch -eq 999 ]; then
-        # Reset/Update launcher
-        rm -rf minecraft
-        git clone https://github.com/nguyencongtu2004/minecraft.git
-        cd minecraft
-        chmod +x launcher.sh
+        # Reset/Update launcher via git
+        cd $HOME/minecraft
+        git fetch --all
+        git reset --hard origin/main
         ./launcher.sh
     elif [ $ch -eq 6 ]; then
         # Uninstall launcher
