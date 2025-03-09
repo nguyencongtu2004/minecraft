@@ -83,8 +83,8 @@ if [ $ch -eq 1 ]; then
 
     # Install plugins
     mkdir -p plugins && cd plugins
-    wget -O "Geyser-Spigot" $GEYSER_DOWNLOAD_URL
-    wget -O "floodgate-spigot" $FLOODGATE_DOWNLOAD_URL
+    wget -O "Geyser-Spigot.jar" $GEYSER_DOWNLOAD_URL
+    wget -O "floodgate-spigot.jar" $FLOODGATE_DOWNLOAD_URL
     wget $VIA_VERSION_DOWNLOAD_URL
     wget $PLAYITGG_DOWNLOAD_URL
     cd ..
