@@ -24,9 +24,9 @@ PLAYITGG_DOWNLOAD_URL="https://github.com/playit-cloud/playit-minecraft-plugin/r
 while true; do
     # Display ASCII art and information
     echo -e "$Red
-    Host a Minecraft Server using Android - With Termux
-    github.com/drmatoi/minecraft Version 2.0.0
-      ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
+Host a Minecraft Server using Android - With Termux
+github.com/drmatoi/minecraft Version 2.0.0
+    ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⢀⣀⡿⠿⠿⠿⠿⠿⠿⢿⣀⣀⣀⣀⣀⡀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠸⠿⣇⣀⣀⣀⣀⣀⣀⣸⠿⢿⣿⣿⣿⡇⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠻⠿⠿⠿⠿⠿⣿⣿⣀⡸⠿⢿⣿⡇⠀⠀ 
@@ -103,6 +103,14 @@ while true; do
         # Move key file
         mv -f $MINECRAFT_DIR/plugins/floodgate/key.pem $MINECRAFT_DIR/plugins/Geyser-Spigot/key.pem
         echo -e "$Green \e[1;34m Key file moved successfully! \e[0m"
+
+        # overwrite config.yml
+        cp -f ./config/geyser-config.yml $MINECRAFT_DIR/plugins/Geyser-Spigot/config.yml
+        echo -e "$Green \e[1;34m Geyser config file created successfully! \e[0m"
+
+        # overwrite server.properties
+        cp -f ./config/server.properties $MINECRAFT_DIR/server.properties
+        echo -e "$Green \e[1;34m Server properties file created successfully! \e[0m"
     elif [ $ch -eq 3 ]; then
         # Stop server
         /stop
