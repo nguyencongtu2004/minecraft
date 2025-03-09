@@ -125,6 +125,7 @@ while true; do
         cd $HOME/minecraft
         git fetch --all
         git reset --hard origin/main
+        chmod +x launcher.sh
         ./launcher.sh
     elif [ $ch -eq 6 ]; then
         # Uninstall launcher
