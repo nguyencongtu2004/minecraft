@@ -1,6 +1,6 @@
- #!/bin/bash
+#!/bin/bash
 
-# colour 
+# Define color codes
 Black="\033[1;30m"       # Black
 Red="\033[1;31m"         # Red
 Green="\033[1;32m"       # Green
@@ -10,16 +10,25 @@ Purple="\033[1;35m"      # Purple
 Cyan="\033[1;36m"        # Cyan
 White="\033[1;37m"       # White
 
-apt-get update
-apt-get upgrade
-apt-get install python
-apt-get install python2
-clear
-echo -e "$Purple drmatoi/minecraft  v2.0  is launching... \e[1;34m"
-sleep 3.2
-clear
-  echo -e "$Red      
+# Define Minecraft server directory
+MINECRAFT_DIR="$HOME/drmatoi_minecrafthost"
 
+# Variables
+# MINECRAFT_DOWNLOAD_URL="https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
+MINECRAFT_DOWNLOAD_URL="https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/203/downloads/paper-1.21.4-203.jar"
+PLUGINS_DOWNLOAD_URL=(
+    "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot"
+    "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot"
+    "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.2.1/PAPER/ViaVersion-5.2.1.jar"
+    "https://github.com/playit-cloud/playit-minecraft-plugin/releases/latest/download/playit-minecraft-plugin.jar"
+)
+
+# Update and install necessary packages
+apt-get update -y
+apt-get upgrade -y
+
+# Display ASCII art and information
+echo -e "$Red
   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⢀⣀⡿⠿⠿⠿⠿⠿⠿⢿⣀⣀⣀⣀⣀⡀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠸⠿⣇⣀⣀⣀⣀⣀⣀⣸⠿⢿⣿⣿⣿⡇⠀⠀Host a Minecraft Server using Android - With Termux
@@ -33,19 +42,21 @@ clear
 ⢰⣶⡎⠉⢹⣿⡏⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⢸⣿⣷⣶⡎⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  \033[0m"
+\033[0m"
 
-
-    echo " "
-    echo -e "$Red                               ⫸$Purple Made by M4T01 $Red ⫷\033[0m"
+# Display author information
 echo " "
+echo -e "$Red                               ⫸$Purple Made by M4T01 $Red ⫷\033[0m"
+echo " "
+
+# Display menu options
 echo -e " $Green     |---------------------------------------------------------------------|"
 echo -e " $Green     ||----------------------------$Cyan [List] $Green---------------------------||"
 echo -e " $Green     ||                                                                   "
 echo -e " $Green     ||             $Purple==>$Yellow[1] SETUP Server - 4GB RAM$Green                    "
 echo -e " $Green     ||             $Purple==>️$Yellow[2] START Server - 4GB RAM$Green                       "
 echo -e " $Green     ||             $Purple==>$Yellow[3] STOP Server$Green                            "
-echo -e " $Green     ||             $Purple==>$Yellow[4] Server IP adress$Green               "
+echo -e " $Green     ||             $Purple==>$Yellow[4] Server IP address$Green               "
 echo -e " $Green     ||             $Purple==>$Yellow[5] SERVER UP-Time$Green                                  "
 echo -e " $Green     ||             $Purple==>$Yellow[6] Uninstall Launcher$Green                                  "
 echo -e " $Green     ||             $Purple==>$Yellow[7] About$Green                                          "
@@ -58,96 +69,84 @@ echo -e " $Green     |----------------------------------------------------------
 echo " "
 echo " "
 
-    read ch
-   if [ $ch -eq 1 ];then
-        pkg install openjdk-21
+# Read user input
+read ch
 
-pkg install wget
+# Handle user input
+if [ $ch -eq 1 ]; then
+    # Install paper server
+    pkg install openjdk-21 wget -y
+    mkdir -p $MINECRAFT_DIR && cd $MINECRAFT_DIR
+    wget -O server.jar $MINECRAFT_DOWNLOAD_URL
+    chmod +x server.jar
+    echo eula=true > eula.txt
 
-pkg install openssh
+    # Install plugins
+    mkdir -p plugins && cd plugins
+    for plugin_url in "${PLUGINS_DOWNLOAD_URL[@]}"; do
+        wget $plugin_url
+    done
+    cd ..
 
-sshd
-
-passwd
-
-cd ~/
-
-mkdir drmatoi_minecrafthost && drmatoi_minecrafthost
-
-cd drmatoi_minecrafthost
-
-wget -O server.jar https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar
-
-chmod +x server.jar
-
- echo eula=true > eula.txt
-
-java -Xmx4G -Xms4G -jar server.jar nogui
-
-        exit
-    elif [ $ch -eq 2 ];then 
-         
- while true
-do
-java -Xms4G -Xmx4G -jar server.jar 
-sleep 1 
-done
-        
-        exit
-    elif [ $ch -eq 3 ];then
-        /stop
-
-        exit
-    elif [ $ch -eq 4 ];then
-        apt-get install python3
-
-git clone https://github.com/drmatoi/M4T01Picker.git
-
-cd M4T01Picker
-
-python3 ipicker.py
-
-        exit
-    elif [ $ch -eq 5 ];then
-        echo -e "\e[1;34m The server is online as long as: The device on which it is running is connected to the Internet,
-        there is enough memory and RAM, Termux is open and the script is not terminated.
-Yes the Server can crash. Should it start again automatically?
-POSSIBLE! Create before launching a new file with nano alwaysonline.sh put the skript from this github and save it with [STRG + X] 
-Now launch the Server with ./alwaysonline.sh This will check the up-time of the server and relaunch it when its offline."
-
-        cd $HOME
-
-        exit
-   elif [ $ch -eq 999 ];then
- rm -rf minecraft
-git clone https://github.com/drmatoi/minecraft
-cd minecraft
-chmod +x launcher.sh
-./launcher.sh
-     
-        exit
-   elif [ $ch -eq 6 ];then 
-        cd $HOME
-        rm -rf minecraft
-        
-        exit
-   elif [ $ch -eq 7 ];then
-        echo -e "$Cyan How to Host a Minecraft Server on Android
-A script for Termux that makes it possible to host a Minecraft server via your Android phone. This script requires Termux (Updated F-Droid Version) and a bit of time :)
-Install skript and UP-Time skript are mady by M4T01.
-YOU CAN NOT USE THIS ON ANDROID 11 - SORRY! \e[1;36m"
-        cd $HOME
-
-        exit
-
-elif [ $ch -eq 9 ];then
-        $termux-open-url https://t.me/drmatoi
-  
-
-        exit
-        
-    else
-        echo -e "\e[4;32m Invalid Input !!! \e[0m"
-        pause
-    fi
+    # Start server
+    java -Xmx4G -Xms4G -jar server.jar nogui
+    exit
+elif [ $ch -eq 2 ]; then
+    # Start server
+    cd $MINECRAFT_DIR
+    while true; do
+        java -Xms4G -Xmx4G -jar server.jar
+        sleep 1
+    done
+    exit
+elif [ $ch -eq 3 ]; then
+    # Stop server
+    /stop
+    exit
+elif [ $ch -eq 4 ]; then
+    # Install Python3 and get server IP address
+    apt-get install python3 -y
+    git clone https://github.com/drmatoi/M4T01Picker.git
+    cd M4T01Picker
+    python3 ipicker.py
+    exit
+elif [ $ch -eq 5 ]; then
+    # Display server uptime information
+    echo -e "\e[1;34m The server is online as long as: The device on which it is running is connected to the Internet,
+    there is enough memory and RAM, Termux is open and the script is not terminated.
+    Yes the Server can crash. Should it start again automatically?
+    POSSIBLE! Create before launching a new file with nano alwaysonline.sh put the script from this github and save it with [CTRL + X] 
+    Now launch the Server with ./alwaysonline.sh This will check the up-time of the server and relaunch it when it's offline."
+    cd $HOME
+    exit
+elif [ $ch -eq 999 ]; then
+    # Reset/Update launcher
+    rm -rf minecraft
+    git clone https://github.com/nguyencongtu2004/minecraft.git
+    cd minecraft
+    chmod +x launcher.sh
+    ./launcher.sh
+    exit
+elif [ $ch -eq 6 ]; then
+    # Uninstall launcher
+    cd $HOME
+    rm -rf minecraft
+    exit
+elif [ $ch -eq 7 ]; then
+    # Display about information
+    echo -e "$Cyan How to Host a Minecraft Server on Android
+    A script for Termux that makes it possible to host a Minecraft server via your Android phone. This script requires Termux (Updated F-Droid Version) and a bit of time :)
+    Install script and UP-Time script are made by M4T01.
+    YOU CANNOT USE THIS ON ANDROID 11 - SORRY! \e[1;36m"
+    cd $HOME
+    exit
+elif [ $ch -eq 9 ]; then
+    # Report problems to Telegram
+    termux-open-url https://t.me/drmatoi
+    exit
+else
+    # Invalid input
+    echo -e "\e[4;32m Invalid Input !!! \e[0m"
+    pause
+fi
 done
